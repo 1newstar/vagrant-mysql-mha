@@ -1,0 +1,21 @@
+[server default]
+manager_log=/var/log/mha/app1/manager.log
+manager_workdir=/var/log/mha/app1.log
+master_binlog_dir=/var/lib/mysql
+user=homestead
+password=secret
+ping_interval=2
+repl_user=repl
+repl_password=111111
+ssh_user=vagrant
+
+[server1]
+hostname=192.168.50.40
+
+[server2]
+candidate_master=1
+check_repl_delay=0
+hostname=192.168.50.41
+
+[server3]
+hostname=192.168.50.42
