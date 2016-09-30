@@ -17,18 +17,15 @@ apt-get install mha4mysql-node -y
 
 #mysql node
 if [ ${hostname%%-*} == "mysql" ]; then    
-    
+    #配置节点开启bin-log复制    
+    server_id=${ip##*.}
+    if [ $(grep -c "server-id" /etc/mysql/my.cnf) -eq 0 ]; then        
+        rule="s/\[mysqld\]/\[mysqld\]\nserver-id       = ${server_id}\nlog-bin         = mysql-bin/g"
+        cp /etc/mysql/my.cnf /etc/mysql/my.cnf.bak
+        sed -i "${rule}" /etc/mysql/my.cnf
+    fi
     # Master建立账号
-    if [ $role == "mysql-master" ]; then
-    
-        #配置节点开启bin-log复制    
-        server_id=${ip##*.}
-        if grep -qc "server-id" /etc/mysql/my.cnf !=0; then        
-            rule="s/\[mysqld\]/\[mysqld\]\nserver-id       = ${server_id}\nlog-bin         = mysql-bin/g"
-            cp /etc/mysql/my.cnf /etc/mysql/my.cnf.bak
-            sed -i"${rule}" /etc/mysql/my.cnf
-        fi
-        
+    if [ $role == "mysql-master" ]; then         
         mysql -u root -psecret -e "GRANT REPLICATION SLAVE ON *.* to 'repl'@'%' identified by '111111';";        
     fi
 

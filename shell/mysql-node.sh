@@ -4,13 +4,7 @@ role=$2
 
 #安装配置mha
 apt-get install mha4mysql-node -y #所有主机都要安装mha
-if [ server_id -eq 50 ]; then
-    apt-get install mha4mysql-manager -y #mha manager
-    if [ ! -d "/etc/mha" ]; then
-        mkdir /etc/mha
-    fi
-    cp /vagrant/app1.cnf /etc/mha/
-fi
+
 
 #配置节点开启bin-log复制
 #ip=$(/sbin/ifconfig -a|grep inet|grep -v 127.0.0.1|grep -v 10.0.2.15|grep -v inet6|awk '{print $2}'|tr -d "addr:")

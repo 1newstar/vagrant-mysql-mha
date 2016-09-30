@@ -1,7 +1,7 @@
 #!/bin/bash
-ip=$1
-role=$2
-
+hostname=$(hostname)
+$role = ${hostname%-*}
+#$role = /bin/hostname | cut -d '-' -f 1-2
 #安装配置mha manager
 if [ $role == 'mha-manager' ]; then
     apt-get install mha4mysql-manager -y 
